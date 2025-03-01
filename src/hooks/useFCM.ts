@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getToken, messaging } from "../utilities/firebase";
+import { getToken, messaging, onMessage } from "../utilities/firebase";
 
 export default function useFCM() {
 	const [permissionDenied, setPermissionDenied] = useState(false);
@@ -50,6 +50,17 @@ export default function useFCM() {
 
 	useEffect(() => {
 		requestPermissionAndToken();
+
+		// Handle foreground notifications
+		const unsubscribe = onMessage(messaging, (payload) => {
+			console.log("Foreground Notification:", payload);
+			const { title, body } = payload.notification || {};
+			if (title && body) {
+				new Notification(title, { body });
+			}
+		});
+
+		return () => unsubscribe();
 	}, []);
 
 	return { fcmToken, isLoading, permissionDenied, requestPermissionAndToken };
