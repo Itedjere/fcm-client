@@ -55,8 +55,16 @@ export default function useFCM() {
 		const unsubscribe = onMessage(messaging, (payload) => {
 			console.log("Foreground Notification:", payload);
 			const { title, body } = payload.notification || {};
+			const url = payload.data?.url || "/";
 			if (title && body) {
-				new Notification(title, { body, icon: "/vite.svg" });
+				const notification = new Notification(title, {
+					body,
+					icon: "/vite.svg",
+				});
+
+				notification.onclick = () => {
+					window.open(url, "_blank"); // Open in a new tab
+				};
 			}
 		});
 
