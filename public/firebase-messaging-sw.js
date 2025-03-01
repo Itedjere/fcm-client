@@ -31,7 +31,7 @@ messaging.onBackgroundMessage(function (payload) {
 	const notificationTitle = "Background Title";
 	const notificationOptions = {
 		body: "Background Message body.",
-		icon: "https://logospng.org/download/vite-js/vite-js-256-logo.png",
+		icon: "/vite.svg",
 	};
 
 	self.registration.showNotification(notificationTitle, notificationOptions);

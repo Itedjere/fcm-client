@@ -56,7 +56,7 @@ export default function useFCM() {
 			console.log("Foreground Notification:", payload);
 			const { title, body } = payload.notification || {};
 			if (title && body) {
-				new Notification(title, { body });
+				new Notification(title, { body, icon: "/vite.svg" });
 			}
 		});
 
