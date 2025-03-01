@@ -1,11 +1,14 @@
-import { initializeApp } from "firebase/app";
-import { getMessaging } from "firebase/messaging/sw";
-import { onBackgroundMessage } from "firebase/messaging/sw";
+importScripts(
+	"https://www.gstatic.com/firebasejs/11.4.0/firebase-app-compat.js"
+);
+importScripts(
+	"https://www.gstatic.com/firebasejs/11.4.0/firebase-messaging-compat.js"
+);
 
 // Initialize the Firebase app in the service worker by passing in
 // your app's Firebase config object.
 // https://firebase.google.com/docs/web/setup#config-object
-const firebaseApp = initializeApp({
+firebase.initializeApp({
 	apiKey: "AIzaSyDpcyL7SVfMzYtGd-rBUpU8x8bIIeLSr6M",
 	authDomain: "testing-fcm-a6a49.firebaseapp.com",
 	databaseURL: "https://testing-fcm-a6a49.firebaseio.com",
@@ -18,18 +21,18 @@ const firebaseApp = initializeApp({
 
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
-const messaging = getMessaging(firebaseApp);
+const messaging = firebase.messaging();
 
-onBackgroundMessage(messaging, (payload) => {
+messaging.onBackgroundMessage(function (payload) {
 	console.log(
 		"[firebase-messaging-sw.js] Received background message ",
 		payload
 	);
 	// Customize notification here
-	const notificationTitle = "New Sale";
+	const notificationTitle = "Background Message Title";
 	const notificationOptions = {
-		body: "A New Sale Has Been Added To Your Account.",
-		icon: "https://logospng.org/download/vite-js/vite-js-256-logo.png",
+		body: "Background Message body.",
+		icon: "/firebase-logo.png",
 	};
 
 	self.registration.showNotification(notificationTitle, notificationOptions);
