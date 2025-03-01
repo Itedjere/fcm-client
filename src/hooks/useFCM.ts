@@ -4,6 +4,7 @@ import { getToken, messaging } from "../utilities/firebase";
 export default function useFCM() {
 	const [permissionDenied, setPermissionDenied] = useState(false);
 	const [fcmToken, setFcmToken] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 
 	// Request notification permission and get token
 	const requestPermissionAndToken = async () => {
@@ -20,6 +21,9 @@ export default function useFCM() {
 				setPermissionDenied(true);
 				return;
 			}
+
+			// Set is loading to true
+			setIsLoading(true);
 
 			// Retrieve the FCM token
 			const fcmToken = await getToken(messaging, {
@@ -39,6 +43,8 @@ export default function useFCM() {
 		} catch (error) {
 			console.error("Error during notification setup:", error);
 			setPermissionDenied(true);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -46,5 +52,5 @@ export default function useFCM() {
 		requestPermissionAndToken();
 	}, []);
 
-	return { fcmToken, permissionDenied, requestPermissionAndToken };
+	return { fcmToken, isLoading, permissionDenied, requestPermissionAndToken };
 }

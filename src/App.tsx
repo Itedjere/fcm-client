@@ -4,7 +4,8 @@ import "./App.css";
 import useFCM from "./hooks/useFCM";
 
 function App() {
-	const { fcmToken, permissionDenied, requestPermissionAndToken } = useFCM();
+	const { fcmToken, isLoading, permissionDenied, requestPermissionAndToken } =
+		useFCM();
 	return (
 		<>
 			<div>
@@ -26,9 +27,8 @@ function App() {
 						Request Permission
 					</button>
 				)}
-				<p>
-					Token: <code>{fcmToken}</code>
-				</p>
+				<h3>Token</h3>
+				<p>{isLoading ? "Fetching token..." : fcmToken}</p>
 			</div>
 			<p className="read-the-docs">
 				Click on the Vite and React logos to learn more
