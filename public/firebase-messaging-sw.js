@@ -11,7 +11,6 @@ importScripts(
 firebase.initializeApp({
 	apiKey: "AIzaSyDpcyL7SVfMzYtGd-rBUpU8x8bIIeLSr6M",
 	authDomain: "testing-fcm-a6a49.firebaseapp.com",
-	databaseURL: "https://testing-fcm-a6a49.firebaseio.com",
 	projectId: "testing-fcm-a6a49",
 	storageBucket: "testing-fcm-a6a49.firebasestorage.app",
 	messagingSenderId: "1006271281027",

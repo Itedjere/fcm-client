@@ -1,12 +1,10 @@
-import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import useFCM from "./hooks/useFCM";
 
 function App() {
-	const [count, setCount] = useState(0);
-	const { fcmToken, permissionDenied } = useFCM();
+	const { fcmToken, permissionDenied, requestPermissionAndToken } = useFCM();
 	return (
 		<>
 			<div>
@@ -24,8 +22,8 @@ function App() {
 			<h1>Vite + React</h1>
 			<div className="card">
 				{permissionDenied && (
-					<button onClick={() => setCount((count) => count + 1)}>
-						count is {count}
+					<button onClick={requestPermissionAndToken}>
+						Request Permission
 					</button>
 				)}
 				<p>

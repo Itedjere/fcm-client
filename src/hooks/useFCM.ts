@@ -46,5 +46,5 @@ export default function useFCM() {
 		requestPermissionAndToken();
 	}, []);
 
-	return { fcmToken, permissionDenied };
+	return { fcmToken, permissionDenied, requestPermissionAndToken };
 }
