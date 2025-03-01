@@ -22,6 +22,21 @@ firebase.initializeApp({
 // messages.
 const messaging = firebase.messaging();
 
+messaging.onMessage(function (payload) {
+	console.log(
+		"[firebase-messaging-sw.js] Received background message ",
+		payload
+	);
+	// Customize notification here
+	const notificationTitle = "Foreground Title";
+	const notificationOptions = {
+		body: "Foreground Message body.",
+		icon: "https://logospng.org/download/vite-js/vite-js-256-logo.png",
+	};
+
+	self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
 messaging.onBackgroundMessage(function (payload) {
 	console.log(
 		"[firebase-messaging-sw.js] Received background message ",
@@ -31,7 +46,7 @@ messaging.onBackgroundMessage(function (payload) {
 	const notificationTitle = "Background Title";
 	const notificationOptions = {
 		body: "Background Message body.",
-		icon: "/firebase-logo.png",
+		icon: "https://logospng.org/download/vite-js/vite-js-256-logo.png",
 	};
 
 	self.registration.showNotification(notificationTitle, notificationOptions);
