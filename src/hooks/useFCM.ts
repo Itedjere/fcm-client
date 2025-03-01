@@ -3,6 +3,7 @@ import { getToken, messaging } from "../utilities/firebase";
 
 export default function useFCM() {
 	const [permissionDenied, setPermissionDenied] = useState(false);
+	const [fcmToken, setFcmToken] = useState("");
 
 	// Request notification permission and get token
 	const requestPermissionAndToken = async () => {
@@ -27,6 +28,7 @@ export default function useFCM() {
 			});
 			if (fcmToken) {
 				console.log("New FCM token:", fcmToken);
+				setFcmToken(fcmToken);
 				localStorage.setItem("fcm_token", fcmToken);
 			} else {
 				console.log(
@@ -44,5 +46,5 @@ export default function useFCM() {
 		requestPermissionAndToken();
 	}, []);
 
-	return { permissionDenied };
+	return { fcmToken, permissionDenied };
 }
