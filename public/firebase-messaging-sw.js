@@ -32,27 +32,34 @@ messaging.onBackgroundMessage(function (payload) {
 	const notificationOptions = {
 		body: payload.notification.body,
 		icon: "/vite.svg",
-		data: { url: payload.data?.url || "/" }, // Default to home page if no URL
+		data: { url: payload?.fcmOptions?.link || payload.data?.link || "/" }, // Default to home page if no URL
 	};
 
 	self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
 // Handle notification clicks
-self.addEventListener('notificationclick', (event) => {
-  event.notification.close(); // Close the notification pop-up
+self.addEventListener("notificationclick", (event) => {
+	event.notification.close(); // Close the notification pop-up
 
-  const targetUrl = event.notification.data.url || '/';
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
-      // Focus if the app is open in a tab
-      for (const client of clientList) {
-        if (client.url.includes(self.location.origin) && 'focus' in client) {
-          return client.navigate(targetUrl).then(() => client.focus());
-        }
-      }
-      // Open a new tab if no existing tab is found
-      return clients.openWindow(targetUrl);
-    })
-  );
+	const targetUrl = event.notification.data.url || "/";
+	event.waitUntil(
+		clients
+			.matchAll({ type: "window", includeUncontrolled: true })
+			.then((clientList) => {
+				// Focus if the app is open in a tab
+				for (const client of clientList) {
+					if (
+						client.url.includes(self.location.origin) &&
+						"focus" in client
+					) {
+						return client
+							.navigate(targetUrl)
+							.then(() => client.focus());
+					}
+				}
+				// Open a new tab if no existing tab is found
+				return clients.openWindow(targetUrl);
+			})
+	);
 });

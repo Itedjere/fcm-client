@@ -1,5 +1,10 @@
-import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getApp, getApps, initializeApp } from "firebase/app";
+import {
+	getMessaging,
+	getToken,
+	isSupported,
+	onMessage,
+} from "firebase/messaging";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyDpcyL7SVfMzYtGd-rBUpU8x8bIIeLSr6M",
@@ -11,7 +16,11 @@ const firebaseConfig = {
 	measurementId: "G-K8BGGETGPW",
 };
 
-const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+
+const messaging = async () => {
+	const supported = await isSupported();
+	return supported ? getMessaging(app) : null;
+};
 
 export { messaging, getToken, onMessage };
