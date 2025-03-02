@@ -82,9 +82,8 @@ export default function useFCM() {
 			const unsubscribe = onMessage(fcmMessaging, (payload) => {
 				if (Notification.permission !== "granted") return;
 				console.log("Foreground Notification:", payload);
-				const { title, body } = payload.notification || {};
-				const link =
-					payload?.fcmOptions?.link || payload.data?.link || "/";
+				const { title, body, link } = payload.data || {};
+				const url = link || "/";
 				if (title && body) {
 					const notification = new Notification(title, {
 						body,
@@ -92,7 +91,7 @@ export default function useFCM() {
 					});
 
 					notification.onclick = () => {
-						window.open(link, "_blank"); // Open in a new tab
+						window.open(url, "_blank"); // Open in a new tab
 					};
 				}
 			});
@@ -110,7 +109,7 @@ export default function useFCM() {
 
 		// Cleanup the listener when the component unmounts.
 		return () => unsubscribe?.();
-	}, [])
+	}, []);
 
 	return { fcmToken, isLoading, permissionDenied, requestPermissionAndToken };
 }
