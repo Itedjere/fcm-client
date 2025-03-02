@@ -28,11 +28,11 @@ messaging.onBackgroundMessage(function (payload) {
 		payload
 	);
 	// Customize notification here
-	const notificationTitle = payload.notification.title;
+	const { title: notificationTitle, body, link } = payload.data;
 	const notificationOptions = {
-		body: payload.notification.body,
+		body,
 		icon: "/vite.svg",
-		data: { url: payload?.fcmOptions?.link || payload.data?.link || "/" }, // Default to home page if no URL
+		data: { url: link || "/" }, // Default to home page if no URL
 	};
 
 	self.registration.showNotification(notificationTitle, notificationOptions);
